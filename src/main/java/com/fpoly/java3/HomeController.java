@@ -1,6 +1,7 @@
 package com.fpoly.java3;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.servlet.ServletException;
@@ -52,7 +53,7 @@ public class HomeController extends HttpServlet {
 		User user = new User();
 		user.setEmail("email@gmail.com");
 		user.setPassword("1234567");
-		user.setName("name");
+		user.setName("Nguyen Van A");
 		user.setGender(true);
 		user.setPhone("1234567890");
 
@@ -64,9 +65,39 @@ public class HomeController extends HttpServlet {
 		birthDay.setYear(2025);
 		user.setBirthday(birthDay);
 
-		user.setRole(1);
-
+		user.setRole(1); // Hiển thị nếu 0 == User || 1 == Admin
+		// Gửi 1 đối tượng từ Controller qua JSP thông qua Model
 		req.setAttribute("user", user);
+
+//		Tạo 1 mảng user với 3 item 
+//		Gửi mảng user qua jsp và hiển thị tên user của 3 item đó 
+
+		User[] users = new User[3];
+		users[0] = new User();
+		users[0].setName("Nguyen Van Index 0");
+
+		users[1] = new User();
+		users[1].setName("Nguyen Van Index 1");
+
+		users[2] = new User();
+		users[2].setName("Nguyen Van Index 2");
+
+		req.setAttribute("users", users);
+
+		ArrayList<User> usersArrayList = new ArrayList<User>();
+
+		req.setAttribute("usersArr", usersArrayList);
+
+//		dùng vòng lập for 
+//		for (int index = 0; index < users.length; index++) {
+//			users[index] = new User();
+//			users[index].setName("Nguyen Van Index " + index);
+//		}
+
+//		foreach 
+//		for(User userTemp : users) {
+//			userTemp = new User();
+//		}
 
 		// dòng trỏ về giao diện này phải nằm cuối phương thức
 		req.getRequestDispatcher("/home.jsp").forward(req, resp);

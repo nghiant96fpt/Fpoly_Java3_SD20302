@@ -13,5 +13,9 @@
 
 	<h1>Protocol: ${pro}</h1>
 	<h1>Context Path: ${ctxPath}</h1>
+	<h1>Họ và tên: ${user.name}</h1>
+	<h1>Vai trò: ${user.role == 0 ? 'User' : 'Admin'}</h1>
+	<h1>Họ và tên user 1: ${users[0].name}</h1> <!-- Mảng thông thường -->
+	<%-- <h1>Họ và tên user 1: ${usersArr.get(0).name}</h1> <!-- Array List --> --%>
 </body>
 </html>
