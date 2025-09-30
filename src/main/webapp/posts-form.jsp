@@ -13,7 +13,9 @@
 <body>
 	<div class="container">
 		<div class="col-6 offset-3">
-			<form>
+			<form method="POST"
+				action="${pageContext.request.contextPath}/admin/posts-form"
+				enctype="multipart/form-data">
 				<div class="mb-3">
 				  <label for="exampleFormControlInput1" class="form-label">Tiêu đề</label>
 				  <input type="text" class="form-control">
@@ -26,13 +28,16 @@
 				
 				<div class="mb-3">
 				  <label for="exampleFormControlInput1" class="form-label">Hình ảnh</label>
-				  <input type="file" class="form-control" accept="image/*" multiple>
+				  <input name="image" type="file" class="form-control" accept="image/*">
 				</div>
 				
 				<div class="mb-3">
 				  <label for="exampleFormControlInput1" class="form-label">Danh mục bài viết</label>
 				  <select class="form-select" aria-label="Default select example">
 					  <option selected>----Chọn danh mục------</option>
+					  <c:forEach items="${categories}" var="cat">
+					  	<option>${cat.name}</option>
+					  </c:forEach>
 					</select>
 				</div>
 				
