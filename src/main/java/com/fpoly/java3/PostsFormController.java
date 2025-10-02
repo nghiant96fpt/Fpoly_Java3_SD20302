@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
+import org.apache.commons.beanutils.BeanUtils;
+
+import com.fpoly.java3.beans.PostsFormBeans;
 import com.fpoly.java3.entities.Category;
 
 @MultipartConfig()
@@ -34,6 +37,8 @@ public class PostsFormController extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		req.setCharacterEncoding("UTF-8");
+		resp.setContentType("text/html; charset=UTF-8");
 
 		ArrayList<Category> categories = new ArrayList<Category>();
 
@@ -46,24 +51,15 @@ public class PostsFormController extends HttpServlet {
 
 		Part part = req.getPart("image");
 
-		if (part == null) {
-			System.out.println("Không chọn file");
-		} else {
-//			tên file được lưu trên máy user 
-			System.out.println(part.getSubmittedFileName());
-//			Kích thước file được upload lên (byte)
-			System.out.println(part.getSize());
-//			Loại file được upload 
-//			image/png
-//			audio/mp3
-//			application/pdf
-			System.out.println(part.getContentType());
+		try {
+			PostsFormBeans beans = new PostsFormBeans();
 
-//			25MB => byte
-//			int maxSize = 1024 * 1024 * 25;
+			BeanUtils.populate(beans, req.getParameterMap());
 
-//			3d => ms
-//			int day = 1000 * 60 * 60 * 24 * 3;
+			req.setAttribute("beans", beans);
+
+		} catch (Exception e) {
+			// TODO: handle exception
 		}
 
 		req.getRequestDispatcher("/posts-form.jsp").forward(req, resp);

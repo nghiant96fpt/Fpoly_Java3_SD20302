@@ -18,12 +18,12 @@
 				enctype="multipart/form-data">
 				<div class="mb-3">
 				  <label for="exampleFormControlInput1" class="form-label">Tiêu đề</label>
-				  <input type="text" class="form-control">
+				  <input value="${beans.title}" name="title" type="text" class="form-control">
 				</div>
 				
 				<div class="mb-3">
 				  <label for="exampleFormControlInput1" class="form-label">Nội dung</label>
-				  <textarea class="form-control" rows="3"></textarea>
+				  <textarea name="desc" class="form-control" rows="3">${beans.desc}</textarea>
 				</div>
 				
 				<div class="mb-3">
@@ -33,10 +33,10 @@
 				
 				<div class="mb-3">
 				  <label for="exampleFormControlInput1" class="form-label">Danh mục bài viết</label>
-				  <select class="form-select" aria-label="Default select example">
-					  <option selected>----Chọn danh mục------</option>
+				  <select name="category" class="form-select" aria-label="Default select example">
+					  <option ${beans == null || beans.category == 0 ? 'selected' : ''} value="0">----Chọn danh mục------</option>
 					  <c:forEach items="${categories}" var="cat">
-					  	<option>${cat.name}</option>
+					  	<option ${beans.category == cat.id ? 'selected' : ''} value="${cat.id}">${cat.name}</option>
 					  </c:forEach>
 					</select>
 				</div>
@@ -44,13 +44,13 @@
 				<div class="mb-3">
 				  <label for="exampleFormControlInput1" class="form-label">Trạng thái bài viết</label>
 				  <div class="form-check">
-					  <input class="form-check-input" type="radio" id="radioDefault1">
+					  <input ${beans.status == 1 ? 'checked' : ''} name="status" value="1" class="form-check-input" type="radio" id="radioDefault1">
 					  <label class="form-check-label" for="radioDefault1">
 					   	Hiển thị
 					  </label>
 					</div>
 					<div class="form-check">
-					  <input class="form-check-input" type="radio" id="radioDefault2">
+					  <input name="status" ${beans.status == 0 ? 'checked' : ''} value="0" class="form-check-input" type="radio" id="radioDefault2">
 					  <label class="form-check-label" for="radioDefault2">
 					   	Ẩn
 					  </label>
