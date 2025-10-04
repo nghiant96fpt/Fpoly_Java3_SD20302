@@ -19,16 +19,19 @@
 				<div class="mb-3">
 				  <label for="exampleFormControlInput1" class="form-label">Tiêu đề</label>
 				  <input value="${beans.title}" name="title" type="text" class="form-control">
+				  <small class="text-danger">${beans.errors.errTitle}</small>
 				</div>
 				
 				<div class="mb-3">
 				  <label for="exampleFormControlInput1" class="form-label">Nội dung</label>
 				  <textarea name="desc" class="form-control" rows="3">${beans.desc}</textarea>
+				  <small class="text-danger">${beans.errors.errDesc}</small>
 				</div>
 				
 				<div class="mb-3">
 				  <label for="exampleFormControlInput1" class="form-label">Hình ảnh</label>
 				  <input name="image" type="file" class="form-control" accept="image/*">
+				  <small class="text-danger">${beans.errors.errImage}</small>
 				</div>
 				
 				<div class="mb-3">
@@ -39,6 +42,7 @@
 					  	<option ${beans.category == cat.id ? 'selected' : ''} value="${cat.id}">${cat.name}</option>
 					  </c:forEach>
 					</select>
+					<small class="text-danger">${beans.errors.errCat}</small>
 				</div>
 				
 				<div class="mb-3">
@@ -50,11 +54,12 @@
 					  </label>
 					</div>
 					<div class="form-check">
-					  <input name="status" ${beans.status == 0 ? 'checked' : ''} value="0" class="form-check-input" type="radio" id="radioDefault2">
+					  <input name="status" ${beans.status == 2 ? 'checked' : ''} value="2" class="form-check-input" type="radio" id="radioDefault2">
 					  <label class="form-check-label" for="radioDefault2">
 					   	Ẩn
 					  </label>
 					</div>
+					<small class="text-danger">${beans.errors.errStatus}</small>
 				</div>
 				
 				<button type="submit" class="btn btn-primary">Thêm bài viết</button>

@@ -28,6 +28,7 @@ public class LoginController extends HttpServlet {
 //		Lấy giá trị của các ô input mà user vừa nhập vào khi ấn submit 
 //		Lấy bằng getParameter 
 
+//		Check email 
 		String username = req.getParameter("username");
 		String password = req.getParameter("password");
 

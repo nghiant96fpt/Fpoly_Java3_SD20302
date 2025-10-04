@@ -49,14 +49,20 @@ public class PostsFormController extends HttpServlet {
 
 		req.setAttribute("categories", categories);
 
-		Part part = req.getPart("image");
-
 		try {
 			PostsFormBeans beans = new PostsFormBeans();
 
 			BeanUtils.populate(beans, req.getParameterMap());
+//			Chỉ convert giá trị string, int, boolean,...
+
+			Part part = req.getPart("image");
+			beans.setImage(part);
 
 			req.setAttribute("beans", beans);
+
+			if (beans.getErrors().isEmpty()) {
+//				TODO 
+			}
 
 		} catch (Exception e) {
 			// TODO: handle exception
