@@ -2,6 +2,7 @@ package com.fpoly.java3;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -62,6 +63,34 @@ public class PostsFormController extends HttpServlet {
 
 			if (beans.getErrors().isEmpty()) {
 //				TODO 
+//				Lưu ảnh vào project => tên ảnh
+//				Lưu các thông tin của bài viết và tên ảnh vào DB
+
+				String type = beans.getImage().getContentType().split("/")[1];
+				String name = String.valueOf(new Date().getTime()) + "." + type;
+
+				System.out.println(name);
+
+//				1759644669994.png, 1759644669994.jpg
+//				1759644669994.jpge, 1759644669994.webp
+
+//				image/png, image/jpg
+//				getContentType()
+
+//				Định dạng file *.png, *.jpg,....
+
+//				Đường đẫn lưu file trong project
+				String path = "/assets/images/" + name;
+
+//				Đừng đẫn cứng lưu file bên trong server tomcat
+				String tomcatPath = req.getServletContext().getRealPath(path);
+
+//				Lưu file vào đường đãn cứng của tomcat
+				beans.getImage().write(tomcatPath);
+
+				System.out.println(tomcatPath);
+
+//				Thread.sleep(10);
 			}
 
 		} catch (Exception e) {
