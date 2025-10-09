@@ -60,10 +60,10 @@ public class HomeController extends HttpServlet {
 //		Nhập đúng ngày tháng năm sinh của cá nhân 
 		Date birthDay = new Date(); // => Ngày hiện tại.
 //		03/04/2005
-		birthDay.setDate(3);
-		birthDay.setMonth(3);
-		birthDay.setYear(2025);
-		user.setBirthday(birthDay);
+//		birthDay.setDate(3);
+//		birthDay.setMonth(3);
+//		birthDay.setYear(2025);
+//		user.setBirthday(birthDay);
 
 		user.setRole(1); // Hiển thị nếu 0 == User || 1 == Admin
 		// Gửi 1 đối tượng từ Controller qua JSP thông qua Model
