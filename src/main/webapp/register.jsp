@@ -65,6 +65,8 @@ err{
 				  <err>${bean.errors.errBirthDay}</err>
 				</div>
 				
+				<err>${errRegister}</err>
+				
 				<button type="submit" class="btn btn-primary">Đăng ký</button>
 			</form>
 		</div>

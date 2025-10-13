@@ -17,7 +17,12 @@ public class User {
 	private String password;
 	private String name;
 	private boolean gender;
+//	true == Nam
+//	false == Nữ 
 	private String phone;
 	private Date birthday;
 	private int role;
+//	0 == User
+//	1 == Editer
+//	2 == Admin
 }

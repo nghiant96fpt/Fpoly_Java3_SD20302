@@ -10,32 +10,43 @@ import com.fpoly.java3.entities.User;
 public class UserServices {
 //	tạo các phương thức thêm sửa xoá cho đối tượng user 
 
-	public boolean insert(User user) {
-		try {
-			String insertSQL = "INSERT INTO users(email, password, name, birthday, gender, phone, role) VALUES(?, ?, ?, ?, ?, ?, ?)";
+	public static boolean register(User user) throws Exception {
+		Connection connection = DatabaseConnect.dbConnection();
+//		Kiểm tra email có tồn tại chưa
+//		Nếu chưa mới thực hiện đăng ký 
 
-//			Statement => insert db 
-//			PreparedStatement
+		String checkEmailSQL = "SELECT * FROM users WHERE email= ?";
+		PreparedStatement statementCheckEmail = connection.prepareStatement(checkEmailSQL);
+		statementCheckEmail.setString(1, user.getEmail());
 
-			Connection connection = DatabaseConnect.dbConnection();
-			PreparedStatement statement = connection.prepareStatement(insertSQL);
-			statement.setString(1, user.getEmail());
-			statement.setString(2, user.getPassword());
-			statement.setString(3, user.getName());
-			statement.setDate(4, user.getBirthday());
-			statement.setBoolean(5, user.isGender());
-			statement.setString(6, user.getPhone());
-			statement.setInt(7, user.getRole());
+		ResultSet resultSet = statementCheckEmail.executeQuery();
 
-			boolean insertBoolean = statement.execute();
-
+		if (resultSet.next()) {
+//			Email tồn tại 
 			connection.close();
 
-			return insertBoolean; // true || false
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
+			throw new Exception("Email đã tồn tại");
+//			== return 
 		}
+
+		String insertSQL = "INSERT INTO users(email, password, name, birthday, gender, phone, role) VALUES(?, ?, ?, ?, ?, ?, ?)";
+
+//		Statement => insert db 
+//		PreparedStatement
+		PreparedStatement statement = connection.prepareStatement(insertSQL);
+		statement.setString(1, user.getEmail());
+		statement.setString(2, user.getPassword());
+		statement.setString(3, user.getName());
+		statement.setDate(4, user.getBirthday());
+		statement.setBoolean(5, user.isGender());
+		statement.setString(6, user.getPhone());
+		statement.setInt(7, user.getRole());
+
+		int rows = statement.executeUpdate();
+
+		connection.close();
+
+		return rows > 0;
 	}
 
 	public boolean updateInfo(User user) {
