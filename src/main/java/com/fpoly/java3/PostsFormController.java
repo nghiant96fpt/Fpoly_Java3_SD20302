@@ -1,8 +1,8 @@
 package com.fpoly.java3;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -16,20 +16,16 @@ import org.apache.commons.beanutils.BeanUtils;
 
 import com.fpoly.java3.beans.PostsFormBeans;
 import com.fpoly.java3.entities.Category;
+import com.fpoly.java3.services.CategoryServices;
 
 @MultipartConfig()
-@WebServlet("/admin/posts-form")
+@WebServlet("/editer/posts-form")
 public class PostsFormController extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-		ArrayList<Category> categories = new ArrayList<Category>();
-
-		for (int index = 0; index < 5; index++) {
-			Category category = new Category(index + 1, "Category " + (index + 1));
-			categories.add(category);
-		}
+		List<Category> categories = CategoryServices.getList();
 
 		req.setAttribute("categories", categories);
 
@@ -41,12 +37,7 @@ public class PostsFormController extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		resp.setContentType("text/html; charset=UTF-8");
 
-		ArrayList<Category> categories = new ArrayList<Category>();
-
-		for (int index = 0; index < 5; index++) {
-			Category category = new Category(index + 1, "Category " + (index + 1));
-			categories.add(category);
-		}
+		List<Category> categories = CategoryServices.getList();
 
 		req.setAttribute("categories", categories);
 
@@ -89,6 +80,11 @@ public class PostsFormController extends HttpServlet {
 				beans.getImage().write(tomcatPath);
 
 				System.out.println(tomcatPath);
+
+//				Chuyển các dữ liệu từ bean vào entity
+//				Chuyển tên ảnh đã lưu vào 
+//				Lấy id user từ cookie để set vào entity
+//				Sau đó mới gọi services 
 
 //				Thread.sleep(10);
 			}

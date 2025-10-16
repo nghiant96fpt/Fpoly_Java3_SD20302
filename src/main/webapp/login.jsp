@@ -14,13 +14,18 @@
 				method="POST">
 				<div class="mb-3">
 				  <label for="exampleFormControlInput1" class="form-label">Tên tài khoản</label>
-				  <input value="${username}" name="username" type="text" class="form-control">
+				  <input value="${bean.username}" name="username" type="text" class="form-control">
+				  <small class="text-danger">${bean.errors.errUsername}</small>
 				</div>
 				
 				<div class="mb-3">
 				  <label for="exampleFormControlInput1" class="form-label">Mật khẩu</label>
-				  <input value="${password}" name="password" type="password" class="form-control">
+				  <input value="${bean.password}" name="password" type="password" class="form-control">
+				  <small class="text-danger">${bean.errors.errPassword}</small>
 				</div>
+				
+				<small class="text-danger">${errLogin}</small>
+				<br/>
 				
 				<button type="submit" class="btn btn-primary">Đăng nhập</button>
 			</form>

@@ -144,9 +144,9 @@ public class UserServices {
 		}
 	}
 
-	public boolean login(String email, String password) {
+	public static User login(String email, String password) {
 		try {
-			String sql = "SELECT * FORM users WHERE email=?";
+			String sql = "SELECT * FROM users WHERE email=?";
 
 			Connection connection = DatabaseConnect.dbConnection();
 
@@ -156,18 +156,23 @@ public class UserServices {
 			ResultSet resultSet = statement.executeQuery();
 			while (resultSet.next()) {
 				String passwordDB = resultSet.getString("password");
-				connection.close();
 				if (password.equals(passwordDB)) {
-					return true;
+					User user = new User();
+					user.setId(resultSet.getInt("id"));
+					user.setRole(resultSet.getInt("role"));
+
+					connection.close();
+					return user;
 				} else {
-					return false;
+					connection.close();
+					return null;
 				}
 			}
 			connection.close();
-			return false;
+			return null;
 		} catch (Exception e) {
 			e.printStackTrace();
-			return false;
+			return null;
 		}
 	}
 

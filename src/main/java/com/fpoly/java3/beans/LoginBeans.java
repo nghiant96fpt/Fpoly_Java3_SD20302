@@ -17,7 +17,7 @@ public class LoginBeans {
 	public Map<String, String> getErrors() {
 		Map<String, String> map = new HashMap<String, String>();
 
-		if (!username.matches("/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$/")) {
+		if (!username.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")) {
 			map.put("errUsername", "Error");
 		}
 

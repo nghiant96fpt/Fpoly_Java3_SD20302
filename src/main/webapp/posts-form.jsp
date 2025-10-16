@@ -14,7 +14,7 @@
 	<div class="container">
 		<div class="col-6 offset-3">
 			<form method="POST"
-				action="${pageContext.request.contextPath}/admin/posts-form"
+				action="${pageContext.request.contextPath}/editer/posts-form"
 				enctype="multipart/form-data">
 				<div class="mb-3">
 				  <label for="exampleFormControlInput1" class="form-label">Tiêu đề</label>

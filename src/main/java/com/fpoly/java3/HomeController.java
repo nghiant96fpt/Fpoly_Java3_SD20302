@@ -17,6 +17,8 @@ public class HomeController extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		System.out.println("Home Get method");
+
 //		lấy ra các thông tin khi người dùng truy cập vào trang home
 //		Các thông tin sẽ được lấy ra từ request 
 //		- Protocol

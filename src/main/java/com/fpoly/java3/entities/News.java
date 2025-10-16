@@ -1,6 +1,6 @@
 package com.fpoly.java3.entities;
 
-import java.util.Date;
+import java.sql.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
