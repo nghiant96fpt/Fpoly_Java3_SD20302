@@ -62,6 +62,9 @@
 					<small class="text-danger">${beans.errors.errStatus}</small>
 				</div>
 				
+				<small class="text-danger">${errNews}</small>
+				<br/>
+				
 				<button type="submit" class="btn btn-primary">Thêm bài viết</button>
 			</form>
 		</div>
