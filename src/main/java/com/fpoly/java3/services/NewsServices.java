@@ -103,5 +103,66 @@ public class NewsServices {
 		return newsList;
 	}
 
+	public static boolean deleteNews(int newsId, int userId) {
+		try {
+			String sql = "DELETE FROM news WHERE id=? AND user_id=?";
+
+			Connection connection = DatabaseConnect.dbConnection();
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setInt(1, newsId);
+			statement.setInt(2, userId);
+
+			int rows = statement.executeUpdate();
+
+			connection.close();
+
+			return rows > 0;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return false;
+	}
+
+	public static News getNewsByIdAndUserId(int newsId, int userId) {
+		try {
+			String sql = "SELECT n.id, n.title, n.content, n.image, n.is_active,"
+					+ " n.create_date, n.view_count, u.name as auth_name, c.name as cat_name, n.cat_id"
+					+ " FROM news n JOIN users u ON n.user_id = u.id JOIN categories c ON n.cat_id = c.id"
+					+ " WHERE n.user_id=? AND n.id=?";
+			Connection connection = DatabaseConnect.dbConnection();
+
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setInt(1, userId);
+			statement.setInt(2, newsId);
+
+			ResultSet resultSet = statement.executeQuery();
+
+			if (resultSet.next()) {
+				News news = new News();
+				news.setId(resultSet.getInt("id"));
+				news.setTitle(resultSet.getString("title"));
+				news.setContent(resultSet.getString("content"));
+				news.setImage(resultSet.getString("image"));
+				news.setActive(resultSet.getBoolean("is_active"));
+				news.setCreateDate(resultSet.getDate("create_date"));
+				news.setViewCount(resultSet.getInt("view_count"));
+				User user = new User();
+				user.setName(resultSet.getString("auth_name"));
+				news.setUser(user);
+				Category category = new Category();
+				category.setName(resultSet.getString("cat_name"));
+				category.setId(resultSet.getInt("cat_id"));
+				news.setCategory(category);
+
+				return news;
+
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 //	danh sách tất cả bài viết (admin)
 }

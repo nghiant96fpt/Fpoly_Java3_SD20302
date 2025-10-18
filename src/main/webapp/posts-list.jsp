@@ -22,6 +22,7 @@
 		      <th scope="col">Danh mục</th>
 		      <th scope="col">Lượt xem</th>
 		      <th scope="col">Trạng thái</th>
+		      <th scope="col">Hành động</th>
 		    </tr>
 		  </thead>
 		  <tbody>
@@ -38,6 +39,14 @@
 			      <td>${item.category.name}</td>
 			      <td>${item.viewCount}</td>
 			      <td>${item.active ? 'Hiển thị' : 'Ẩn'}</td>
+			      <td>
+			      	<a href="${pageContext.request.contextPath}/editer/posts-form?id=${item.id}" class="btn btn-warning">Sửa</a>
+			      	<form action="${pageContext.request.contextPath}/editer/post-delete"
+			      		method="POST">
+			      		<input type="hidden" name="id" value="${item.id}"/>
+			      		<button type="submit" class="btn btn-danger">Xoá</button>
+			      	</form>
+			      </td>
 			    </tr>
 		  	</c:forEach>
 		  </tbody>

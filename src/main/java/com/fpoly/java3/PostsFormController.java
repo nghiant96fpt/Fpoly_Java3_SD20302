@@ -34,6 +34,42 @@ public class PostsFormController extends HttpServlet {
 
 		req.setAttribute("categories", categories);
 
+//		Nếu id == null => Thêm && Nếu id != null => Sửa?
+//		lấy id từ url 
+//		Lấy user id từ cookie
+//		lấy thông tin bài viết từ db theo news_id và user_id
+
+		String newsId = req.getParameter("id");
+
+		if (newsId != null) {
+			try {
+				Cookie[] cookies = req.getCookies();
+				String userId = "";
+
+				for (Cookie cookie : cookies) {
+					if (cookie.getName().equals("userId")) {
+						userId = cookie.getValue();
+						break;
+					}
+				}
+
+				News news = NewsServices.getNewsByIdAndUserId(Integer.parseInt(newsId), Integer.parseInt(userId));
+
+//				Convert entity to bean 
+
+				PostsFormBeans beans = new PostsFormBeans();
+				beans.setId(news.getId());
+				beans.setTitle(news.getTitle());
+				beans.setDesc(news.getContent());
+				beans.setCategory(news.getCategory().getId());
+				beans.setStatus(news.isActive() ? 1 : 2);
+
+				req.setAttribute("beans", beans);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
 		req.getRequestDispatcher("/posts-form.jsp").forward(req, resp);
 	}
 

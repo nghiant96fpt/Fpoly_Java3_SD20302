@@ -65,7 +65,7 @@
 				<small class="text-danger">${errNews}</small>
 				<br/>
 				
-				<button type="submit" class="btn btn-primary">Thêm bài viết</button>
+				<button type="submit" class="btn btn-primary">${beans.id == 0 || beans == null ? 'Thêm bài viết' : 'Sửa bài viết'}</button>
 			</form>
 		</div>
 	</div>
