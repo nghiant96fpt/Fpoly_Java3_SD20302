@@ -29,7 +29,9 @@
 		  	<c:forEach items="${news}" var="item">
 		  		<tr>
 			      <th>${item.id}</th>
-			      <td>${item.title}</td>
+			      <td>
+			      	<a href="${pageContext.request.contextPath}/news-detail?id=${item.id}">${item.title}</a>
+			      </td>
 			      <td>
 			      	<img style="width: 100px; height: 100px"
 			      		src="${pageContext.request.contextPath}/assets/images/${item.image}"

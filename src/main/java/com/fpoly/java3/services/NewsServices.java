@@ -14,21 +14,6 @@ import com.fpoly.java3.entities.User;
 public class NewsServices {
 // Viết phương thức thêm bài viết vào db
 
-//	CREATE TABLE [dbo].[news] (
-//		    [id]          INT            IDENTITY (1, 1) NOT NULL,
-//		    [title]       NVARCHAR (500) NOT NULL,
-//		    [content]     NTEXT          NULL,
-//		    [image]       VARCHAR (50)   NULL,
-//		    [create_date] DATETIME2 (7)  DEFAULT (sysutcdatetime()) NOT NULL,
-//		    [user_id]     INT            NOT NULL,
-//		    [view_count]  INT            DEFAULT ((0)) NOT NULL,
-//		    [is_active]   BIT            DEFAULT ((1)) NOT NULL,
-//		    [cat_id]      INT            NOT NULL,
-//		    PRIMARY KEY CLUSTERED ([id] ASC),
-//		    CONSTRAINT [FK_news_categories] FOREIGN KEY ([cat_id]) REFERENCES [dbo].[categories] ([id]),
-//		    CONSTRAINT [FK_news_users] FOREIGN KEY ([user_id]) REFERENCES [dbo].[users] ([id])
-//		);
-
 	public static boolean addNews(News news) {
 		try {
 			String sql = "INSERT INTO news VALUES(?, ?, ?, ?, ?, 0, ?, ?)";
@@ -161,6 +146,112 @@ public class NewsServices {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return null;
+	}
+
+//	CREATE TABLE [dbo].[news] (
+//		    [id]          INT            IDENTITY (1, 1) NOT NULL,
+//		    [title]       NVARCHAR (500) NOT NULL,
+//		    [content]     NTEXT          NULL,
+//		    [image]       VARCHAR (50)   NULL,
+//		    [create_date] DATETIME2 (7)  DEFAULT (sysutcdatetime()) NOT NULL,
+//		    [user_id]     INT            NOT NULL,
+//		    [view_count]  INT            DEFAULT ((0)) NOT NULL,
+//		    [is_active]   BIT            DEFAULT ((1)) NOT NULL,
+//		    [cat_id]      INT            NOT NULL,
+//		    PRIMARY KEY CLUSTERED ([id] ASC),
+//		    CONSTRAINT [FK_news_categories] FOREIGN KEY ([cat_id]) REFERENCES [dbo].[categories] ([id]),
+//		    CONSTRAINT [FK_news_users] FOREIGN KEY ([user_id]) REFERENCES [dbo].[users] ([id])
+//		);
+
+	public static boolean updateNewsByIdAndUserId(News news) {
+
+		try {
+			String sql = "UPDATE news SET title=?, content=?, image=?, is_active=?, cat_id=? "
+					+ "WHERE id=? AND user_id=?";
+
+			Connection connection = DatabaseConnect.dbConnection();
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setString(1, news.getTitle());
+			statement.setString(2, news.getContent());
+			statement.setString(3, news.getImage());
+			statement.setBoolean(4, news.isActive());
+			statement.setInt(5, news.getCategory().getId());
+			statement.setInt(6, news.getId());
+			statement.setInt(7, news.getUser().getId());
+
+			int rows = statement.executeUpdate();
+
+			connection.close();
+
+			return rows > 0;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return false;
+	}
+
+	public static News getNewsById(int id, int userId) {
+		try {
+
+			String sql = "SELECT n.*, u.name as auth_name, c.name as cat_name,"
+					+ " (SELECT COUNT(f.id) FROM favourites f WHERE n.id=f.news_id) as fav_count,"
+					+ " (SELECT f.id FROM favourites f WHERE f.user_id=? AND n.id=f.news_id) as fav_id"
+					+ " FROM news n JOIN users u ON n.user_id = u.id JOIN categories c ON n.cat_id = c.id"
+					+ " WHERE n.id=?";
+
+//			TH: User chưa đăng nhập => Sẽ không cần lấy giá trị đã yêu thích hay chưa 
+//			TH: User đã đăng nhập => Cần biết user có yêu thích bài viết không?
+
+//			if (userId > 0) {
+////				Đã đăng nhập
+//
+//				String sqlFav = "SELECT id as fav_id FROM favourites WHERE user_id=?";
+//			} else {
+////				Chưa đăng nhập 
+//			}
+
+//			xử lý khi đã lấy được dữ liệu từ db và kiểm tra ở controller => attribute 
+//			fav_id == null && user_id > 0 => user đã đăng nhập và chưa yêu thích bài viết 
+//			fav_id > 0 && user_id > 0 => user đã đăng nhập và đã yêu thích bài viết 
+//			user_id == 0 => user chưa đăng nhập (yêu thích có thể ẩn đi || để chưa yêu thích click vào login)
+
+			Connection connection = DatabaseConnect.dbConnection();
+
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setInt(1, userId);
+			statement.setInt(2, id);
+
+			ResultSet resultSet = statement.executeQuery();
+
+			if (resultSet.next()) {
+				News news = new News();
+				news.setId(resultSet.getInt("id"));
+				news.setTitle(resultSet.getString("title"));
+				news.setContent(resultSet.getString("content"));
+				news.setImage(resultSet.getString("image"));
+				news.setActive(resultSet.getBoolean("is_active"));
+				news.setCreateDate(resultSet.getDate("create_date"));
+				news.setViewCount(resultSet.getInt("view_count"));
+				User user = new User();
+				user.setName(resultSet.getString("auth_name"));
+				news.setUser(user);
+				Category category = new Category();
+				category.setName(resultSet.getString("cat_name"));
+				news.setCategory(category);
+
+				news.setFavCount(resultSet.getInt("fav_count"));
+				news.setFav(resultSet.getString("fav_id") != null); // true => có yêu thích
+
+				return news;
+
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		return null;
 	}
 

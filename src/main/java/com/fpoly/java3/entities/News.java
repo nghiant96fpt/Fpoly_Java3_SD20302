@@ -19,4 +19,6 @@ public class News {
 	private int viewCount;
 	private Category category;
 	private boolean isActive;
+	private int favCount;
+	private boolean isFav;
 }

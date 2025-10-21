@@ -55,7 +55,7 @@ public class PostsFormBeans {
 			map.put("errStatus", "Trạng thái bắt buộc chọn");
 		}
 
-		int maxSize = 1024 * 500;
+		int maxSize = 1024 * 1024 * 100;
 
 		if (image == null) {
 			map.put("errImage", "Ảnh bắt buộc chọn");

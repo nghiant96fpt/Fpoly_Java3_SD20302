@@ -16,6 +16,7 @@
 			<form method="POST"
 				action="${pageContext.request.contextPath}/editer/posts-form"
 				enctype="multipart/form-data">
+				<input type="hidden" name="id" value="${beans == null ? 0 : beans.id}"/>
 				<div class="mb-3">
 				  <label for="exampleFormControlInput1" class="form-label">Tiêu đề</label>
 				  <input value="${beans.title}" name="title" type="text" class="form-control">

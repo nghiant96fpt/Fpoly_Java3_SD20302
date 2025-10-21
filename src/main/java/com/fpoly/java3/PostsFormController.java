@@ -174,12 +174,32 @@ public class PostsFormController extends HttpServlet {
 				news.setCategory(category);
 				news.setActive(beans.getStatus() == 1);
 
-				boolean insertNews = NewsServices.addNews(news);
+				if (beans.getId() > 0) {
+//					Sửa
 
-				if (insertNews) {
-					req.setAttribute("errNews", "Thêm bài viết thành công");
+					news.setId(beans.getId());
+					boolean updateNews = NewsServices.updateNewsByIdAndUserId(news);
+
+					if (updateNews) {
+//						req.setAttribute("errNews", "Cập nhật bài viết thành công");
+
+						resp.sendRedirect(req.getContextPath() + "/editer/posts");
+						return;
+					} else {
+						req.setAttribute("errNews", "Cập nhật bài viết thất bại");
+					}
 				} else {
-					req.setAttribute("errNews", "Thêm bài viết thất bại");
+//					Thêm
+
+					boolean insertNews = NewsServices.addNews(news);
+
+					if (insertNews) {
+//						req.setAttribute("errNews", "Thêm bài viết thành công");
+						resp.sendRedirect(req.getContextPath() + "/editer/posts");
+						return;
+					} else {
+						req.setAttribute("errNews", "Thêm bài viết thất bại");
+					}
 				}
 			}
 

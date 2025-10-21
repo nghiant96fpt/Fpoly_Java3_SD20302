@@ -32,6 +32,7 @@ public class PostDeleteController extends HttpServlet {
 		boolean checkDelete = NewsServices.deleteNews(Integer.parseInt(id), Integer.parseInt(userId));
 
 		resp.sendRedirect(req.getContextPath() + "/editer/posts?status=" + (checkDelete ? 1 : 0));
+//		return ?
 	}
 }
 
